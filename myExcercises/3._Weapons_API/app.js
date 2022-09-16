@@ -54,13 +54,12 @@ app.get("/weapons/:id", (req,res)=> {
 
 app.post("/weapons", (req,res)=> {
     // does not currently support error handling
-
     const newWeapon = {}
-    newWeapon.name = req.body.name;
-    newWeapon.img = req.body.img;
-    newWeapon.types = req.body.types;
-    newWeapon.description = req.body.description;
-    newWeapon.legality = req.body.legality;
+
+    Object.keys(req.body).forEach(property =>{
+        newWeapon[property] = req.body[property]
+    });
+
     weapons.push(newWeapon);
 
     res.json(req.body);
@@ -79,11 +78,10 @@ app.delete("/weapons/:id", (req,res) => {
 
 app.put("/weapons/:id", (req,res) => {
     const newWeapon = {};
-    newWeapon.name = req.body.name;
-    newWeapon.img = req.body.img;
-    newWeapon.types = req.body.types;
-    newWeapon.description = req.body.description;
-    newWeapon.legality = req.body.legality;
+    
+    Object.keys(req.body).forEach(property =>{
+        newWeapon[property] = req.body[property]
+    });
 
     weapons[parseInt(req.params.id)-1] = newWeapon;
 
