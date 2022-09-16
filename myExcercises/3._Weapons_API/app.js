@@ -4,6 +4,7 @@ const port = 8080;
 
 
 const knife = {
+    id: 1,
     name: "knife",
     img: null,
     types: ["combat knife","butter knife", "hunting knife"],
@@ -12,6 +13,7 @@ const knife = {
 };
 
 const pistol = {
+    id: 2,
     name: "pistol",
     img: null,
     types: ["deagle","glock"],
@@ -20,6 +22,7 @@ const pistol = {
 };
 
 const rifle = {
+    id: 3,
     name: "rifle",
     img: null,
     types: ["hunting rifle"],
@@ -43,7 +46,7 @@ app.get("/weapons", (req, res) => {
 
 app.get("/weapons/:id", (req,res)=> {
     // I let the id be the array pos+1, because im lazy
-    let weapon = weapons[parseInt(req.params.id)-1];
+    let weapon = weapons.filter(weapon => weapon.id === req.params.id)
 
     if (weapon !== undefined) {
         res.send({data: weapon});
@@ -55,6 +58,9 @@ app.get("/weapons/:id", (req,res)=> {
 app.post("/weapons", (req,res)=> {
     // does not currently support error handling
     const newWeapon = {}
+    newWeapon.id = parseInt(Math.max(...weapons.map(weapon => weapon.id))+1)
+
+    console.log(newWeapon.id);
 
     Object.keys(req.body).forEach(property =>{
         newWeapon[property] = req.body[property]
@@ -78,7 +84,7 @@ app.delete("/weapons/:id", (req,res) => {
 
 app.put("/weapons/:id", (req,res) => {
     const newWeapon = {};
-    
+
     Object.keys(req.body).forEach(property =>{
         newWeapon[property] = req.body[property]
     });
