@@ -100,8 +100,6 @@ app.patch("/weapons/:id", (req,res) => {
     res.send(existingWeapon);
 })
 
-
-
 app.listen(port, () => {
     console.log("Your weapons project is up and running on port: ",port);
 });
