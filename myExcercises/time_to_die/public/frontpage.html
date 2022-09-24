@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        h1 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+        </style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time to die</title>
+</head>
+<body>
+    <h1>
+        Welcome my friend
+    </h1>
+    <p> 
+        On this webpage you surely won't waste your time
+    </p>
+    <div>
+        <button onclick="updateCounter()">click me</button>
+    </div>
+    
+    <p id="response"></p>
+
+    <script>
+    function updateCounter() {
+        document.getElementById("response").innerHTML = "You have wasted " + counter + " seconds of your life on this page. If you click again perhaps things will be different?";
+    }
+
+    let counter = 0
+        setInterval(() => {
+            console.log(counter++);
+        }, 1000);
+    </script>
+
+</body>
+</html>

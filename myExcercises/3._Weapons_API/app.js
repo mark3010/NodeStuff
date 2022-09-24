@@ -37,7 +37,7 @@ weapons.push(rifle);
 
 // endpoints
 
-app.use(express.json());
+app.use(express.json()); //lets us use bodyparser to parse json to console
 
 app.get("/weapons", (req, res) => {
     res.send({data: weapons});
@@ -46,7 +46,10 @@ app.get("/weapons", (req, res) => {
 
 app.get("/weapons/:id", (req,res)=> {
     // I let the id be the array pos+1, because im lazy
-    let weapon = weapons.filter(weapon => weapon.id === req.params.id)
+
+    //let weapon = weapons.filter(weapon => weapon.id === req.params.id) OR
+    //use find as it is less performance intesive
+    const weapon = weapons.find(weapon => weapon.id === req.params.id)
 
     if (weapon !== undefined) {
         res.send({data: weapon});
@@ -57,22 +60,25 @@ app.get("/weapons/:id", (req,res)=> {
 
 app.post("/weapons", (req,res)=> {
     // does not currently support error handling
-    const newWeapon = {}
+    const newWeapon = req.body
     newWeapon.id = parseInt(Math.max(...weapons.map(weapon => weapon.id))+1)
 
     console.log(newWeapon.id);
 
+    /*
     Object.keys(req.body).forEach(property =>{
         newWeapon[property] = req.body[property]
-    });
+    });*/
 
     weapons.push(newWeapon);
 
-    res.json(req.body);
+    res.send(req.body);
+    //res.json(req.body);
 })
 
 app.delete("/weapons/:id", (req,res) => {
-    let weapon = weapons[parseInt(req.params.id)-1]
+    const weapon = weapons.find(weapon => weapon.id === req.params.id)
+    //let weapon = weapons[parseInt(req.params.id)-1]
     
     if (weapon !== undefined) {
         res.send({data: weapon});
@@ -83,15 +89,17 @@ app.delete("/weapons/:id", (req,res) => {
 })
 
 app.put("/weapons/:id", (req,res) => {
-    const newWeapon = {};
-
+    //const newWeapon = {};
+    const newWeapon = req.body;
+    newWeapon.id = req.params.id;
+    /*
     Object.keys(req.body).forEach(property =>{
         newWeapon[property] = req.body[property]
-    });
+    });*/
 
     weapons[parseInt(req.params.id)-1] = newWeapon;
 
-    res.json(req.body);
+    //res.json(req.body);
 })
 
 app.patch("/weapons/:id", (req,res) => {
